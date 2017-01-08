@@ -4,6 +4,7 @@
 /*********************************************
  * Main top navigation
  *********************************************/
+$nav-bg-color: #333333;
 .site-nav {
   margin: 0;
   padding: 0;
@@ -15,13 +16,8 @@
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  background: $light-blue;
+  background: $nav-bg-color;
   z-index: 10;
-
-  .insta-icon {
-    padding: 10px;
-    font-size: 26px;
-  }
 
   ul,
   ul li,
@@ -63,7 +59,7 @@
     text-transform: uppercase;
 
     @include haf-pseudo {
-      background: $yellow;
+      background: darken( $nav-bg-color, 10% );
     }
   }
 
@@ -169,10 +165,10 @@
     text-decoration: none;
     color: #fff;
     font-weight: 400;
-    background: $light-blue;
+    background: $nav-bg-color;
 
     @include haf-pseudo {
-      background: $yellow;
+      background: darken( $nav-bg-color, 10% );
     }
   }
   & ul ul li:last-child > a,
@@ -351,7 +347,7 @@
         cursor: pointer;
 
         &.submenu-opened {
-          background: darken( $light-blue, 5% );
+          background: darken( $nav-bg-color, 5% );
         }
       }
 
