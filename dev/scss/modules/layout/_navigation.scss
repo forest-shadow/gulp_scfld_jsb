@@ -5,6 +5,7 @@
  * Main top navigation
  *********************************************/
 $nav-bg-color: #333333;
+$item-haf-bg: darken( $nav-bg-color, 10% );
 .site-nav {
   margin: 0;
   padding: 0;
@@ -59,7 +60,7 @@ $nav-bg-color: #333333;
     text-transform: uppercase;
 
     @include haf-pseudo {
-      background: darken( $nav-bg-color, 10% );
+      background: $item-haf-bg;
     }
   }
 
@@ -168,7 +169,7 @@ $nav-bg-color: #333333;
     background: $nav-bg-color;
 
     @include haf-pseudo {
-      background: darken( $nav-bg-color, 10% );
+      background: $item-haf-bg;
     }
   }
   & ul ul li:last-child > a,
