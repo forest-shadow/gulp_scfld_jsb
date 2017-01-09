@@ -6,6 +6,11 @@
  *********************************************/
 $nav-bg-color: #333333;
 $item-haf-bg: darken( $nav-bg-color, 10% );
+
+$menu-link-1l-fz: 12px;
+$menu-link-2l-fz: 12px;
+$menu-btn-fz: 12px;
+
 .site-nav {
   margin: 0;
   padding: 0;
@@ -52,7 +57,7 @@ $item-haf-bg: darken( $nav-bg-color, 10% );
 
   & > ul > li > a {
     padding: 17px;
-    font-size: 12px;
+    font-size: $menu-link-1l-fz;
     letter-spacing: 1px;
     text-decoration: none;
     color: #fff;
@@ -162,7 +167,7 @@ $item-haf-bg: darken( $nav-bg-color, 10% );
     border-bottom: 1px solid rgba(150, 150, 150, 0.15);
     padding: 11px 15px;
     width: 170px;
-    font-size: 12px;
+    font-size: $menu-link-2l-fz;
     text-decoration: none;
     color: #fff;
     font-weight: 400;
@@ -283,7 +288,7 @@ $item-haf-bg: darken( $nav-bg-color, 10% );
         padding: 17px;
         color: #fff;
         cursor: pointer;
-        font-size: 12px;
+        font-size: $menu-btn-fz;
         text-transform: uppercase;
         font-weight: 700;
 
