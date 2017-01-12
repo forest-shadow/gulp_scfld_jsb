@@ -1,6 +1,5 @@
 //'use strict';
 
-
 /*******************************
  * Modules & Plugins
  *******************************/
@@ -21,7 +20,7 @@ var gulp            = require( 'gulp' ),
     //config = require('./config.json'),
     sourcemaps      = require('gulp-sourcemaps'),
     rename          = require('gulp-rename'),
-    jade            = require('gulp-jade'),
+    pug             = require('gulp-pug'),
     fs              = require('fs'),
     streamqueue     = require('streamqueue'),
     spritesmith     = require('gulp.spritesmith'),
@@ -63,9 +62,9 @@ var getDesc = function( txt ) {
 
 
 /*******************************
- * Jade Task
+ * Pug Task
  *******************************/
-gulp.task( 'jade', function() {
+gulp.task( 'pug', function() {
     dirs = fs.readdirSync( './dist/' );
     files = [];
     for ( var i = 0, len = dirs.length; i < len; i++ ) {
@@ -78,11 +77,11 @@ gulp.task( 'jade', function() {
         }
     }
 
-    gulp.src( './dev/jade/*.jade' )
+    gulp.src( './dev/pug/*.pug' )
         .pipe( plumber({
             errorHandler: onError
         }) )
-        .pipe( jade({
+        .pipe( pug({
             pretty: true,
             locals: {'pages': files}
         }) )
@@ -198,7 +197,7 @@ gulp.task('images:spritesmith', function() {
  *******************************/
 gulp.task('watch', function() {
     gulp.watch( 'dist/*.html' ).on( 'change', reload );
-    gulp.watch( 'dev/jade/**/*.jade', [ 'jade' ] ).on( 'change', reload );
+    gulp.watch( 'dev/pug/**/*.pug', [ 'pug' ] ).on( 'change', reload );
     gulp.watch( 'dev/fonts/**/*', [ 'fonts' ] );
     gulp.watch( 'dev/scss/**/*.scss', [ 'sass', reload ] );
     gulp.watch( 'dev/js/**/*.js', [ 'scripts', reload ] );
@@ -243,4 +242,4 @@ gulp.task( 'cleanDistDir', function( cb ) {
 /*******************************
  * Default Task
  *******************************/
-gulp.task( 'default', [ 'jade', 'fonts', 'sass', 'scripts', 'images', 'images:vendor', 'images:mockups', 'images:spritesmith', 'browsersync', 'watch' ] );
+gulp.task( 'default', [ 'pug', 'fonts', 'sass', 'scripts', 'images', 'images:vendor', 'images:mockups', 'images:spritesmith', 'browsersync', 'watch' ] );
