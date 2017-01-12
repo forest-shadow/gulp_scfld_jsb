@@ -14,17 +14,17 @@ var gulp            = require( 'gulp' ),
     reload          = browsersync.reload,
     browserify      = require( 'browserify' ),
     source          = require( 'vinyl-source-stream' ),
-    plumber         = require('gulp-plumber'),
+    plumber         = require( 'gulp-plumber' ),
     beeper          = require('beeper'),
     del             = require('del'),
     //config = require('./config.json'),
-    sourcemaps      = require('gulp-sourcemaps'),
-    rename          = require('gulp-rename'),
-    pug             = require('gulp-pug'),
-    fs              = require('fs'),
-    streamqueue     = require('streamqueue'),
-    spritesmith     = require('gulp.spritesmith'),
-    buffer          = require('vinyl-buffer');
+    sourcemaps      = require( 'gulp-sourcemaps' ),
+    rename          = require( 'gulp-rename' ),
+    pug             = require( 'gulp-pug' ),
+    fs              = require( 'fs' ),
+    streamqueue     = require( 'streamqueue' ),
+    spritesmith     = require( 'gulp.spritesmith' ),
+    buffer          = require( 'vinyl-buffer' );
 
 
 /*******************************
@@ -49,14 +49,17 @@ function onError( err ) {
  *******************************/
 var getDesc = function( txt ) {
     var dict, key, value;
+
     dict = fs.readFileSync( './dictionary.json', 'utf-8' );
     dict = JSON.parse( dict );
+
     for ( key in dict ) {
-        value = dict[key];
+        value = dict[ key ];
         if ( key === txt ) {
             return value;
         }
     }
+
     return txt;
 };
 
@@ -70,10 +73,10 @@ gulp.task( 'pug', function() {
     for ( var i = 0, len = dirs.length; i < len; i++ ) {
         var file = dirs[i];
         if ( file.indexOf( '.html' ) + 1 && !( file.indexOf( 'index' ) + 1) ) {
-            files.push({
+            files.push( {
                 file: file.replace( '.html', '' ),
                 name: getDesc( file )
-            });
+            } );
         }
     }
 
@@ -103,15 +106,17 @@ gulp.task( 'fonts', function() {
  *******************************/
 gulp.task( 'sass', function() {
    return gulp.src('./dev/scss/bootstrap.scss')
-       .pipe(sourcemaps.init())
+       .pipe( sourcemaps.init() )
        .pipe( sass().on( 'error', sass.logError ) )
        //.pipe(plumber({
        //    errorHandler: onError
        //}))
 
-       .pipe(autoprefixer({ browsers: ['android 4', 'Safari < 9', '> 1%', 'IE 6-8', 'Firefox < 20', 'last 2 versions']}))
+       .pipe( autoprefixer(
+           { browsers: ['android 4', 'Safari < 9', '> 1%', 'IE 6-8', 'Firefox < 20', 'last 2 versions']}
+           ))
        .pipe(rename( 'all.css' ))
-       .pipe(sourcemaps.write('.'))
+       .pipe(sourcemaps.write( '.' ))
        .pipe(gulp.dest('./dist/'));
 });
 
@@ -122,17 +127,17 @@ gulp.task( 'sass', function() {
 gulp.task( 'scripts', function() {
     return streamqueue( { objectMode: true },
 
-    gulp.src( [ 'dev/js/vendor/jquery-3.0.0.min.js', 'dev/js/vendor/jquery-ui.min.js', 'dev/js/vendor/moment-with-locales.js','dev/js/vendor/**/*.js' ] )
-         .pipe( sourcemaps.init() )
-         .pipe( sourcemaps.write() ),
+    gulp.src( [ 'dev/js/vendor/jquery-3.0.0.min.js', 'dev/js/vendor/jquery-ui.min.js', 'dev/js/vendor/moment-with-locales.js','dev/js/vendor/**/*.js' ] ),
 
-    gulp.src( ['dev/js/custom/*.js'] )
-        .pipe( sourcemaps.init() )
+    gulp.src( [ 'dev/js/custom/*.js' ] )
+        //.pipe( sourcemaps.init() )
         .pipe( jshint() )
-        .pipe( jshint.reporter( 'default' ) )
-        .pipe( sourcemaps.write( ) ) )
+        .pipe( jshint.reporter( 'default' ) ) )
+        //.pipe( sourcemaps.write( '.' ) ) )
 
+    .pipe( sourcemaps.init() )
     .pipe( concat( 'all.js' ) )
+    .pipe( sourcemaps.write( '.' ) )
         //.pipe(uglify())
     .pipe( gulp.dest( './dist/' ) );
 });
@@ -148,13 +153,13 @@ gulp.task( 'images', function() {
 });
 
 gulp.task( 'images:vendor', function() {
-    gulp.src( ['dev/images/vendor/**/*.*'] )
+    gulp.src( [ 'dev/images/vendor/**/*.*' ] )
         .pipe( imagemin() )
         .pipe( gulp.dest( 'dist/images/vendor/' ) );
 });
 
 gulp.task( 'images:mockups', function() {
-    gulp.src( ['dev/images/mockups/**/*.*'] )
+    gulp.src( [ 'dev/images/mockups/**/*.*' ] )
         .pipe( imagemin() )
         .pipe( gulp.dest( 'dist/images/mockups/' ) );
 });
@@ -162,9 +167,9 @@ gulp.task( 'images:mockups', function() {
 /*******************************
  * Spritesmith task
  *******************************/
-gulp.task('images:spritesmith', function() {
+gulp.task( 'images:spritesmith', function() {
 	var spriteData =
-		gulp.src( './dev/images/icons/**/*.*' ) // путь, откуда берем картинки для спрайта
+		gulp.src( './dev/images/icons/**/*.*' )
 			.pipe( spritesmith({
 				imgName: 'sprite.png',
 				imgPath: 'images/sprite.png',
@@ -178,13 +183,13 @@ gulp.task('images:spritesmith', function() {
 			}) );
 
 	spriteData.img
-		.pipe(buffer())
-		.pipe( imagemin({ progressive: true }).on('error', function(e){
+		.pipe( buffer() )
+		.pipe( imagemin( { progressive: true } ).on( 'error', function(e) {
 			console.log(e);
 		}) )
-		.pipe(gulp.dest( './dist/images' )); // путь, куда сохраняем картинку
+		.pipe( gulp.dest( './dist/images' ) );
 
-	spriteData.css.pipe(gulp.dest( './dev/scss/' )); // путь, куда сохраняем стили
+	spriteData.css.pipe( gulp.dest( './dev/scss/' ) );
 
 	gulp.src( './dev/images/icons/**/*' )
 		.pipe(buffer())
@@ -195,7 +200,7 @@ gulp.task('images:spritesmith', function() {
 /*******************************
  * Watch Task
  *******************************/
-gulp.task('watch', function() {
+gulp.task( 'watch', function() {
     gulp.watch( 'dist/*.html' ).on( 'change', reload );
     gulp.watch( 'dev/pug/**/*.pug', [ 'pug' ] ).on( 'change', reload );
     gulp.watch( 'dev/fonts/**/*', [ 'fonts' ] );
@@ -211,8 +216,7 @@ gulp.task('watch', function() {
 gulp.task( 'browsersync', function( cb ) {
     return browsersync( {
         server: {
-            baseDir: 'dist',
-            //index: 'template.html'
+            baseDir: 'dist'
         },
         open: "local",
         browser: "chrome"
@@ -242,4 +246,6 @@ gulp.task( 'cleanDistDir', function( cb ) {
 /*******************************
  * Default Task
  *******************************/
-gulp.task( 'default', [ 'pug', 'fonts', 'sass', 'scripts', 'images', 'images:vendor', 'images:mockups', 'images:spritesmith', 'browsersync', 'watch' ] );
+gulp.task( 'default',
+    [ 'pug', 'fonts', 'sass', 'scripts', 'images', 'images:vendor', 'images:mockups', 'images:spritesmith',
+        'browsersync', 'watch' ] );

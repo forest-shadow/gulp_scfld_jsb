@@ -1,12 +1,12 @@
 /* helpers classes */
 input {
-    transition: box-shadow 1s;
+  transition: box-shadow 1s;
 }
 a:focus {
-    outline: none;
+  outline: none;
 }
 i {
-    display: inline-block;
+  display: inline-block;
 }
 
 /*********************************************
@@ -16,5 +16,5 @@ body {
 
 }
 .site-wrapper {
-    @include outer-container-fixed( 1280px );
+  @include outer-container-fixed( 1280px );
 }
