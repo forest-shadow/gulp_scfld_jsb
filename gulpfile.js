@@ -31,7 +31,7 @@ var gulp            = require( 'gulp' ),
  * Create dist dir if not exist
  *******************************/
 if ( !fs.existsSync( './dist/' ) ) {
-    fs.mkdirSync( './dist/' );
+  fs.mkdirSync( './dist/' );
 }
 
 
@@ -39,8 +39,8 @@ if ( !fs.existsSync( './dist/' ) ) {
  * Error Helper
  *******************************/
 function onError( err ) {
-    beeper( 3 );
-    console.log( err );
+  beeper( 3 );
+  console.log( err );
 }
 
 
@@ -48,19 +48,19 @@ function onError( err ) {
  * Get dictionary.json with pages description
  *******************************/
 var getDesc = function( txt ) {
-    var dict, key, value;
+  var dict, key, value;
 
-    dict = fs.readFileSync( './dictionary.json', 'utf-8' );
-    dict = JSON.parse( dict );
+  dict = fs.readFileSync( './dictionary.json', 'utf-8' );
+  dict = JSON.parse( dict );
 
-    for ( key in dict ) {
-        value = dict[ key ];
-        if ( key === txt ) {
-            return value;
-        }
+  for ( key in dict ) {
+    value = dict[ key ];
+    if ( key === txt ) {
+      return value;
     }
+  }
 
-    return txt;
+  return txt;
 };
 
 
@@ -68,27 +68,27 @@ var getDesc = function( txt ) {
  * Pug Task
  *******************************/
 gulp.task( 'pug', function() {
-    dirs = fs.readdirSync( './dist/' );
-    files = [];
-    for ( var i = 0, len = dirs.length; i < len; i++ ) {
-        var file = dirs[i];
-        if ( file.indexOf( '.html' ) + 1 && !( file.indexOf( 'index' ) + 1) ) {
-            files.push( {
-                file: file.replace( '.html', '' ),
-                name: getDesc( file )
-            } );
-        }
+  dirs = fs.readdirSync( './dist/' );
+  files = [];
+  for ( var i = 0, len = dirs.length; i < len; i++ ) {
+    var file = dirs[i];
+    if ( file.indexOf( '.html' ) + 1 && !( file.indexOf( 'index' ) + 1) ) {
+      files.push( {
+        file: file.replace( '.html', '' ),
+        name: getDesc( file )
+      } );
     }
+  }
 
-    gulp.src( './dev/pug/*.pug' )
-        .pipe( plumber({
-            errorHandler: onError
-        }) )
-        .pipe( pug({
-            pretty: true,
-            locals: {'pages': files}
-        }) )
-        .pipe( gulp.dest( './dist' ) );
+  gulp.src( './dev/pug/*.pug' )
+    .pipe( plumber({
+      errorHandler: onError
+    }) )
+    .pipe( pug({
+      pretty: true,
+      locals: {'pages': files}
+    }) )
+    .pipe( gulp.dest( './dist' ) );
 });
 
 
@@ -96,8 +96,8 @@ gulp.task( 'pug', function() {
  * Fonts Task
  *******************************/
 gulp.task( 'fonts', function() {
-	return gulp.src( './dev/fonts/**/*' )
-		.pipe( gulp.dest( './dist/fonts' ) );
+  return gulp.src( './dev/fonts/**/*' )
+    .pipe( gulp.dest( './dist/fonts' ) );
 });
 
 
@@ -105,19 +105,19 @@ gulp.task( 'fonts', function() {
  * Sass Task
  *******************************/
 gulp.task( 'sass', function() {
-   return gulp.src('./dev/scss/bootstrap.scss')
-       .pipe( sourcemaps.init() )
-       .pipe( sass().on( 'error', sass.logError ) )
-       //.pipe(plumber({
-       //    errorHandler: onError
-       //}))
+ return gulp.src('./dev/scss/bootstrap.scss')
+   .pipe( sourcemaps.init() )
+   .pipe( sass().on( 'error', sass.logError ) )
+   //.pipe(plumber({
+   //    errorHandler: onError
+   //}))
 
-       .pipe( autoprefixer(
-           { browsers: ['android 4', 'Safari < 9', '> 1%', 'IE 6-8', 'Firefox < 20', 'last 2 versions']}
-           ))
-       .pipe(rename( 'all.css' ))
-       .pipe(sourcemaps.write( '.' ))
-       .pipe(gulp.dest('./dist/'));
+   .pipe( autoprefixer(
+     { browsers: ['android 4', 'Safari < 9', '> 1%', 'IE 6-8', 'Firefox < 20', 'last 2 versions']}
+     ))
+   .pipe( rename( 'all.css' ) )
+   .pipe( sourcemaps.write( '.' ) )
+   .pipe( gulp.dest( './dist/' ) );
 });
 
 
@@ -125,21 +125,21 @@ gulp.task( 'sass', function() {
  * Scripts Task
  *******************************/
 gulp.task( 'scripts', function() {
-    return streamqueue( { objectMode: true },
+  return streamqueue( { objectMode: true },
 
-    gulp.src( [ 'dev/js/vendor/jquery-3.0.0.min.js', 'dev/js/vendor/jquery-ui.min.js', 'dev/js/vendor/moment-with-locales.js','dev/js/vendor/**/*.js' ] ),
+  gulp.src( [ 'dev/js/vendor/jquery-3.0.0.min.js', 'dev/js/vendor/jquery-ui.min.js',
+    'dev/js/vendor/moment-with-locales.js','dev/js/vendor/**/*.js' ] ),
 
-    gulp.src( [ 'dev/js/custom/*.js' ] )
-        //.pipe( sourcemaps.init() )
-        .pipe( jshint() )
-        .pipe( jshint.reporter( 'default' ) ) )
-        //.pipe( sourcemaps.write( '.' ) ) )
+  gulp.src( [ 'dev/js/custom/*.js' ] )
+    .pipe( jshint() )
+    .pipe( jshint.reporter( 'default' ) ) )
 
-    .pipe( sourcemaps.init() )
-    .pipe( concat( 'all.js' ) )
-    .pipe( sourcemaps.write( '.' ) )
-        //.pipe(uglify())
-    .pipe( gulp.dest( './dist/' ) );
+
+  .pipe( sourcemaps.init() )
+  .pipe( concat( 'all.js' ) )
+  .pipe( sourcemaps.write( '.' ) )
+      //.pipe(uglify())
+  .pipe( gulp.dest( './dist/' ) );
 });
 
 
@@ -147,21 +147,21 @@ gulp.task( 'scripts', function() {
  * Images Task
  *******************************/
 gulp.task( 'images', function() {
-    gulp.src( 'dev/images/*' )
-        .pipe( imagemin() )
-        .pipe( gulp.dest( 'dist/images' ) );
+  gulp.src( 'dev/images/*' )
+    .pipe( imagemin() )
+    .pipe( gulp.dest( 'dist/images' ) );
 });
 
 gulp.task( 'images:vendor', function() {
-    gulp.src( [ 'dev/images/vendor/**/*.*' ] )
-        .pipe( imagemin() )
-        .pipe( gulp.dest( 'dist/images/vendor/' ) );
+  gulp.src( [ 'dev/images/vendor/**/*.*' ] )
+    .pipe( imagemin() )
+    .pipe( gulp.dest( 'dist/images/vendor/' ) );
 });
 
 gulp.task( 'images:mockups', function() {
-    gulp.src( [ 'dev/images/mockups/**/*.*' ] )
-        .pipe( imagemin() )
-        .pipe( gulp.dest( 'dist/images/mockups/' ) );
+  gulp.src( [ 'dev/images/mockups/**/*.*' ] )
+    .pipe( imagemin() )
+    .pipe( gulp.dest( 'dist/images/mockups/' ) );
 });
 
 /*******************************
@@ -201,12 +201,12 @@ gulp.task( 'images:spritesmith', function() {
  * Watch Task
  *******************************/
 gulp.task( 'watch', function() {
-    gulp.watch( 'dist/*.html' ).on( 'change', reload );
-    gulp.watch( 'dev/pug/**/*.pug', [ 'pug' ] ).on( 'change', reload );
-    gulp.watch( 'dev/fonts/**/*', [ 'fonts' ] );
-    gulp.watch( 'dev/scss/**/*.scss', [ 'sass', reload ] );
-    gulp.watch( 'dev/js/**/*.js', [ 'scripts', reload ] );
-    gulp.watch( 'dev/images/**/*.*', [ 'images', 'images:vendor', 'images:mockups', 'images:spritesmith', reload ] );
+  gulp.watch( 'dist/*.html' ).on( 'change', reload );
+  gulp.watch( 'dev/pug/**/*.pug', [ 'pug' ] ).on( 'change', reload );
+  gulp.watch( 'dev/fonts/**/*', [ 'fonts' ] );
+  gulp.watch( 'dev/scss/**/*.scss', [ 'sass', reload ] );
+  gulp.watch( 'dev/js/**/*.js', [ 'scripts', reload ] );
+  gulp.watch( 'dev/images/**/*.*', [ 'images', 'images:vendor', 'images:mockups', 'images:spritesmith', reload ] );
 });
 
 
@@ -214,13 +214,13 @@ gulp.task( 'watch', function() {
  * BrowserSync Task
  *******************************/
 gulp.task( 'browsersync', function( cb ) {
-    return browsersync( {
-        server: {
-            baseDir: 'dist'
-        },
-        open: "local",
-        browser: "chrome"
-    }, cb );
+  return browsersync( {
+    server: {
+        baseDir: 'dist'
+    },
+    open: "local",
+    browser: "chrome"
+  }, cb );
 });
 
 
@@ -228,10 +228,10 @@ gulp.task( 'browsersync', function( cb ) {
  * Browserify Task
  *******************************/
 gulp.task( 'browserify', function() {
-    return browserify( './dev/js/dev.js' )
-        .bundle()
-        .pipe( source( 'bundle.js' ) )
-        .pipe( gulp.dest( './dist' ) );
+  return browserify( './dev/js/dev.js' )
+    .bundle()
+    .pipe( source( 'bundle.js' ) )
+    .pipe( gulp.dest( './dist' ) );
 });
 
 
@@ -239,7 +239,7 @@ gulp.task( 'browserify', function() {
  * Delete 'dist' directory
  *******************************/
 gulp.task( 'cleanDistDir', function( cb ) {
-    del( ['dist'], cb );
+  del( ['dist'], cb );
 });
 
 
