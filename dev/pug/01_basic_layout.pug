@@ -5,7 +5,7 @@ append config
     - var MetaDesc = "Meta Description for current page!!!"
     - var jQuery = true
     - var updateBodyClass = BodyClasses.push('extraclass', 'secondclass')
-    - var thisPage = "JS Processes and Jade Vars"
+    - var thisPage = "JS Processes and Pug Vars"
     - var PageTitle = PageTitle.concat(' | ' + thisPage)
     
 
@@ -33,7 +33,7 @@ mixin navlinks(item)
 block content
     h1
         | #{PageTitle}
-    p If you’re not using Jade, you’re missing out on some of the fastest HTML you’ll ever produce as well as boilerplate
+    p If you’re not using Pug, you’re missing out on some of the fastest HTML you’ll ever produce as well as boilerplate
         | templating methods that will slash your development time in half.
     ul
         li: a(href="#") Link One
@@ -41,7 +41,7 @@ block content
         li: a(href="#") Link Three
         li: a(href="#") Link Four
         li: a(href="#") Link Five
-    p In “Top Speed HTML Dev with Jade” you’ll learn how to generate full HTML from quick and easy shorthand. You’ll then
+    p In “Top Speed HTML Dev with Pug” you’ll learn how to generate full HTML from quick and easy shorthand. You’ll then
         | build on that foundation to create infinitely reusable templates so you never write the same code twice again.
         | Let’s begin!
 
@@ -56,7 +56,7 @@ block content
         }
 
     p(style = "font-family:Poiret One;font-size:2em") By concatenating to the "GoogleFonts" variable we've also loaded the extra font Poiret One
-    p You can also use JavaScript math processes on Jade vars.For example, let's start with the number:
+    p You can also use JavaScript math processes on Pug vars.For example, let's start with the number:
     - var start_num = 2254.3665
 
     code #{start_num}
